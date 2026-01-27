@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Size Chart Editor - Mobile</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+
+    :root {
+        --paper-color: #FDFBF7;
+        --text-color: #1a1a1a;
+        --accent-color: #F3F0EB;
+        --border-color: #e5e5e5;
+        --tape-color: rgba(255, 255, 255, 0.4);
+    }
+
+    * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f0f2f5;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Mobile-First Layout */
+    .layout-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Sticky Header */
+    .mobile-header {
+        background: white;
+        padding: 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mobile-header h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111;
+    }
+
+    .toggle-controls-btn {
+        background: #111;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Preview Section */
+    .preview-section {
+        background: #e2e2e2;
+        padding: 20px;
+        min-height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .viewport-container {
+        position: relative;
+        width: 100%;
+        max-width: 500px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        background-color: #fff;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .viewport-container::before { 
+        content: ''; 
+        position: absolute; 
+        inset: 0; 
+        background: rgba(0, 0, 0, 0.15); 
+        pointer-events: none; 
+    }
+
+    /* Paper Card */
+    .paper-card {
+        position: relative; 
+        width: 85%;
+        background-color: var(--paper-color); 
+        padding: 2rem 1.5rem 2.5rem 1.5rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.25); 
+        z-index: 10;
+    }
+    
+    .paper-card::before, .paper-card::after {
+        content: ''; 
+        position: absolute; 
+        left: 0; 
+        width: 100%; 
+        height: 10px;
+        background-size: 15px 15px; 
+        background-repeat: repeat-x;
+    }
+    .paper-card::before { 
+        top: -10px; 
+        background-image: radial-gradient(circle at 7.5px 0, transparent 5px, var(--paper-color) 6px); 
+    }
+    .paper-card::after { 
+        bottom: -10px; 
+        background-image: radial-gradient(circle at 7.5px 10px, transparent 5px, var(--paper-color) 6px); 
+    }
+
+    /* Tape */
+    .tape {
+        position: absolute; 
+        height: 25px; 
+        width: 80px; 
+        background-color: var(--tape-color);
+        backdrop-filter: blur(2px); 
+        opacity: 0.7; 
+        z-index: 10;
+    }
+    .tape-top { top: -12px; left: 50%; transform: translateX(-50%) rotate(-1deg); }
+    .tape-bottom { bottom: -12px; left: 50%; transform: translateX(-50%) rotate(1deg); }
+
+    /* Typography */
+    .header-section { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: flex-end; 
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .paper-card h1 { 
+        font-family: 'Playfair Display', serif; 
+        font-size: 2rem; 
+        line-height: 0.95; 
+        color: var(--text-color); 
+    }
+    
+    .unit-badge { 
+        background-color: var(--accent-color); 
+        padding: 4px 10px; 
+        font-size: 0.7rem; 
+        color: #444; 
+        border: 1px solid #ddd;
+        white-space: nowrap;
+    }
+
+    .size-table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        color: var(--text-color); 
+        table-layout: fixed;
+        font-size: 0.75rem;
+    }
+    
+    .size-table th { 
+        background-color: var(--accent-color); 
+        padding: 8px 4px; 
+        font-weight: 600; 
+        font-size: 0.7rem; 
+        color: #333; 
+        word-wrap: break-word; 
+    }
+    
+    .size-table td { 
+        padding: 8px 4px; 
+        text-align: center; 
+        border-bottom: 1px solid var(--border-color); 
+        font-size: 0.75rem; 
+    }
+    
+    .size-table th:first-child, 
+    .size-table td:first-child { 
+        border-right: 1.5px solid #000; 
+        font-weight: 700; 
+        width: 18%; 
+    }
+
+    .footer-link { 
+        margin-top: 1rem; 
+        text-align: center; 
+        font-size: 0.65rem; 
+        color: #666; 
+        width: 100%; 
+        display: block; 
+        text-decoration: none; 
+        font-weight: 500; 
+        letter-spacing: 0.5px; 
+    }
+
+    /* Controls Panel - Collapsible */
+    .controls-panel {
+        background: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    .controls-panel.open {
+        max-height: 2000px;
+        overflow-y: auto;
+    }
+
+    .controls-content {
+        padding: 20px;
+    }
+
+    .control-group { 
+        margin-bottom: 20px; 
+        padding-bottom: 20px; 
+        border-bottom: 1px solid #eee; 
+    }
+    
+    .control-group:last-child { border-bottom: none; }
+    
+    .control-group label { 
+        display: block; 
+        margin-bottom: 10px; 
+        font-weight: 600; 
+        font-size: 0.85rem; 
+        color: #555; 
+        text-transform: uppercase; 
+        letter-spacing: 0.5px; 
+    }
+    
+    .control-row { 
+        display: flex; 
+        gap: 8px; 
+        flex-wrap: wrap; 
+        align-items: center; 
+    }
+
+    /* Buttons & Inputs - Touch Friendly */
+    input[type="text"] {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 100%;
+        transition: border 0.2s;
+    }
+    
+    input[type="text"]:focus { 
+        border-color: #333; 
+        outline: none; 
+    }
+    
+    button {
+        padding: 12px 16px;
+        background: #e5e7eb;
+        color: #374151;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s;
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    button:active { 
+        transform: scale(0.98); 
+    }
+    
+    button:hover { background: #d1d5db; }
+    button.primary { background: #111; color: white; border-color: #111; }
+    button.primary:hover { background: #333; }
+    button.active { background: #111; color: white; border-color: #111; }
+    
+    button.danger { 
+        background: #fee2e2; 
+        color: #991b1b; 
+        border-color: #fecaca; 
+        padding: 8px 12px;
+        min-height: 40px;
+    }
+    button.danger:hover { background: #fecaca; }
+
+    /* Format Buttons - Grid Layout */
+    .format-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .format-grid button {
+        font-size: 13px;
+    }
+
+    /* Column Manager */
+    .columns-manager { 
+        display: flex; 
+        gap: 8px; 
+        flex-wrap: wrap; 
+        margin-bottom: 10px; 
+    }
+    
+    .col-pill {
+        display: flex; 
+        align-items: center; 
+        gap: 5px;
+        background: #f8fafc; 
+        padding: 8px 12px; 
+        border-radius: 20px; 
+        border: 1px solid #e2e8f0;
+    }
+    
+    .col-pill input {
+        border: none; 
+        background: transparent; 
+        font-weight: 600; 
+        font-size: 14px; 
+        width: 80px; 
+        color: #333; 
+        padding: 0;
+    }
+    
+    .col-pill input:focus { 
+        outline: none; 
+        border-bottom: 1px solid #666; 
+    }
+
+    .col-pill .remove-btn {
+        cursor: pointer;
+        color: #999;
+        font-size: 20px;
+        line-height: 1;
+        padding: 0 4px;
+    }
+
+    /* Data Grid - Mobile Optimized */
+    .data-grid { 
+        display: grid; 
+        gap: 8px; 
+        margin-top: 10px; 
+    }
+    
+    .data-row { display: contents; }
+    .data-row input { padding: 10px; font-size: 14px; }
+
+    /* Sticky Download Button */
+    .sticky-download {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 16px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 99;
+    }
+
+    .sticky-download button {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    /* File Input */
+    .file-input-wrapper { 
+        position: relative; 
+        overflow: hidden; 
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .file-input-wrapper input[type=file] { 
+        font-size: 100px; 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        opacity: 0; 
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+
+    .file-input-wrapper button {
+        width: 100%;
+    }
+
+    /* Tablet Breakpoint */
+    @media (min-width: 768px) {
+        .preview-section {
+            padding: 40px;
+            min-height: 400px;
+        }
+
+        .viewport-container {
+            max-width: 700px;
+        }
+
+        .paper-card {
+            padding: 2.5rem 2rem 3rem 2rem;
+        }
+
+        .paper-card h1 {
+            font-size: 2.5rem;
+        }
+
+        .size-table {
+            font-size: 0.85rem;
+        }
+
+        .size-table th,
+        .size-table td {
+            padding: 10px 6px;
+            font-size: 0.8rem;
+        }
+
+        .format-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    /* Desktop Breakpoint */
+    @media (min-width: 1024px) {
+        .mobile-header {
+            display: none;
+        }
+
+        .layout-container {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            grid-template-rows: 1fr auto;
+        }
+
+        .controls-panel {
+            max-height: none;
+            overflow-y: auto;
+            grid-row: 1 / 3;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .controls-panel.open {
+            max-height: none;
+        }
+
+        .controls-content {
+            padding: 25px;
+        }
+
+        .preview-section {
+            grid-column: 2;
+            grid-row: 1;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sticky-download {
+            position: relative;
+            grid-column: 2;
+            grid-row: 2;
+            box-shadow: none;
+            border-top: 1px solid #eee;
+        }
+
+        .viewport-container {
+            max-width: 800px;
+        }
+    }
+
+    /* Loading State */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Smooth transitions */
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+</head>
+<body>
+
+<div class="layout-container">
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <h1>Size Chart Editor</h1>
+        <button class="toggle-controls-btn" onclick="toggleControls()">
+            <span id="toggleIcon">⚙️</span>
+            <span id="toggleText">Edit</span>
+        </button>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+        <div class="viewport-container" id="viewportContainer" style="aspect-ratio: 16/9;">
+            <div class="paper-card">
+                <div class="tape tape-top"></div>
+                
+                <div class="header-section">
+                    <h1>Size<br>Chart</h1>
+                    <div class="unit-badge">Size in inches</div>
+                </div>
+
+                <table class="size-table">
+                    <thead id="tableHead"></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+
+                <a href="#" class="footer-link" id="footerLinkDisplay">WWW.BIMBASTUDIO.IN</a>
+                <div class="tape tape-bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls Panel (Collapsible on Mobile) -->
+    <div class="controls-panel" id="controlsPanel">
+        <div class="controls-content">
+            <div class="control-group">
+                <label>Output Format</label>
+                <div class="format-grid">
+                    <button onclick="setFormat(1080, 1350, this)" class="fmt-btn" data-ratio="4:5">
+                        Insta<br>4:5
+                    </button>
+                    <button onclick="setFormat(1080, 1920, this)" class="fmt-btn" data-ratio="9:16">
+                        Story<br>9:16
+                    </button>
+                    <button onclick="setFormat(1080, 1080, this)" class="fmt-btn" data-ratio="1:1">
+                        Square<br>1:1
+                    </button>
+                    <button onclick="setFormat(1920, 1080, this)" class="fmt-btn active" data-ratio="16:9">
+                        Land<br>16:9
+                    </button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>Columns</label>
+                <div class="columns-manager" id="columnManager"></div>
+                <button onclick="addNewColumn()">+ Add Header</button>
+            </div>
+
+            <div class="control-group">
+                <label>Rows & Data</label>
+                <div class="data-grid" id="dataGrid"></div>
+                <button style="margin-top:10px;" onclick="addRow()">+ Add Row</button>
+            </div>
+
+            <div class="control-group">
+                <label>Background & Footer</label>
+                <div style="margin-bottom: 10px;">
+                    <div class="file-input-wrapper">
+                        <button>📷 Upload Background</button>
+                        <input type="file" id="bgUpload" accept="image/*">
+                    </div>
+                </div>
+                <button onclick="clearBackground()" style="width: 100%; margin-bottom: 10px;">Reset Background</button>
+                <input type="text" id="footerLink" value="WWW.BIMBASTUDIO.IN" placeholder="Footer Text">
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Download Button -->
+    <div class="sticky-download">
+        <button class="primary" id="downloadBtn" onclick="downloadImage()">
+            📥 Download Image
+        </button>
+    </div>
+</div>
+
+<script>
+    // --- STATE ---
+    let headers = ["Size", "Bust", "Waist", "Hip"];
+    let rows = [
+        ["S", "32", "26", "36"],
+        ["M", "34", "28", "38"],
+        ["L", "36", "30", "40"],
+        ["XL","38", "32", "42"]
+    ];
+    
+    let currentFormat = { w: 1920, h: 1080 };
+    const defaultBg = 'https://cdn.shopify.com/s/files/1/0713/5464/6694/files/IMG_1484.png?v=1761038265';
+    let currentBgUrl = defaultBg;
+    let controlsOpen = false;
+
+    // --- INIT ---
+    function init() {
+        setBackground(defaultBg);
+        renderAll();
+        
+        // Auto-close controls on desktop
+        if (window.innerWidth >= 1024) {
+            document.getElementById('controlsPanel').classList.add('open');
+        }
+    }
+
+    // --- MOBILE CONTROLS TOGGLE ---
+    function toggleControls() {
+        const panel = document.getElementById('controlsPanel');
+        const icon = document.getElementById('toggleIcon');
+        const text = document.getElementById('toggleText');
+        
+        controlsOpen = !controlsOpen;
+        
+        if (controlsOpen) {
+            panel.classList.add('open');
+            icon.textContent = '✕';
+            text.textContent = 'Close';
+        } else {
+            panel.classList.remove('open');
+            icon.textContent = '⚙️';
+            text.textContent = 'Edit';
+        }
+    }
+
+    // --- FORMAT HANDLER ---
+    function setFormat(w, h, btn) {
+        currentFormat = { w, h };
+        
+        const viewport = document.getElementById('viewportContainer');
+        viewport.style.aspectRatio = `${w}/${h}`;
+
+        const isPortrait = h > w;
+        const card = document.querySelector('.paper-card');
+        if(isPortrait) {
+            card.style.width = "85%"; 
+        } else {
+            card.style.width = "70%";
+        }
+
+        document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+    }
+
+    // --- RENDERERS ---
+    function renderAll() {
+        renderColumnManager();
+        renderDataGrid();
+        renderPreviewTable();
+    }
+
+    function renderColumnManager() {
+        const container = document.getElementById('columnManager');
+        container.innerHTML = headers.map((header, index) => `
+            <div class="col-pill">
+                <input type="text" value="${header}" oninput="updateHeaderName(${index}, this.value)">
+                ${headers.length > 1 ? `<span class="remove-btn" onclick="removeColumn(${index})">&times;</span>` : ''}
+            </div>
+        `).join('');
+    }
+
+    function renderDataGrid() {
+        const grid = document.getElementById('dataGrid');
+        grid.style.gridTemplateColumns = `repeat(${headers.length}, 1fr) 50px`;
+        
+        let html = '';
+        headers.forEach(h => html += `<div style="font-size:11px; font-weight:bold; color:#888; padding: 4px;">${h.substring(0,8)}</div>`);
+        html += `<div></div>`; 
+
+        rows.forEach((row, rowIndex) => {
+            html += `<div class="data-row">`;
+            row.forEach((cellData, colIndex) => {
+                html += `<input type="text" value="${cellData}" oninput="updateCell(${rowIndex}, ${colIndex}, this.value)">`;
+            });
+            html += `<button class="danger" onclick="removeRow(${rowIndex})">×</button>`;
+            html += `</div>`;
+        });
+        grid.innerHTML = html;
+    }
+
+    function renderPreviewTable() {
+        document.getElementById('tableHead').innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+        document.getElementById('tableBody').innerHTML = rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+    }
+
+    // --- DATA LOGIC ---
+    function updateHeaderName(i, v) { headers[i] = v; renderPreviewTable(); }
+    function updateCell(r, c, v) { rows[r][c] = v; renderPreviewTable(); }
+    
+    function addNewColumn() {
+        headers.push("New");
+        rows.forEach(r => r.push("-"));
+        renderAll();
+    }
+    
+    function removeColumn(i) {
+        if(headers.length <= 1) return;
+        if(!confirm("Remove this column?")) return;
+        headers.splice(i, 1);
+        rows.forEach(r => r.splice(i, 1));
+        renderAll();
+    }
+
+    function addRow() {
+        rows.push(new Array(headers.length).fill(""));
+        renderDataGrid();
+        renderPreviewTable();
+    }
+
+    function removeRow(i) {
+        if(rows.length <= 1) return;
+        rows.splice(i, 1);
+        renderDataGrid();
+        renderPreviewTable();
+    }
+
+    // --- BG & FOOTER ---
+    function setBackground(url) {
+        currentBgUrl = url;
+        const viewport = document.getElementById('viewportContainer');
+        viewport.style.backgroundImage = url === 'none' ? 'none' : `url('${url}')`;
+    }
+
+    document.getElementById('bgUpload').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = (ev) => setBackground(ev.target.result);
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function clearBackground() { 
+        setBackground('none'); 
+        document.getElementById('bgUpload').value = ''; 
+    }
+    
+    document.getElementById('footerLink').addEventListener('input', (e) => {
+        document.getElementById('footerLinkDisplay').textContent = e.target.value.toUpperCase();
+    });
+
+    // --- DOWNLOAD ENGINE ---
+    async function downloadImage() {
+        const btn = document.getElementById('downloadBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "⏳ Processing...";
+        btn.disabled = true;
+        btn.classList.add('loading');
+
+        try {
+            const targetWidth = currentFormat.w;
+            const targetHeight = currentFormat.h;
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext('2d');
+
+            // 1. DRAW BACKGROUND
+            if (currentBgUrl && currentBgUrl !== 'none') {
+                await new Promise((resolve) => {
+                    const img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.onload = () => {
+                        const scale = Math.max(targetWidth / img.width, targetHeight / img.height);
+                        const x = (targetWidth / 2) - (img.width / 2) * scale;
+                        const y = (targetHeight / 2) - (img.height / 2) * scale;
+                        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                        resolve();
+                    };
+                    img.onerror = () => { 
+                        ctx.fillStyle = "#fff"; 
+                        ctx.fillRect(0,0,targetWidth,targetHeight); 
+                        resolve(); 
+                    };
+                    img.src = currentBgUrl;
+                });
+            } else {
+                ctx.fillStyle = "#fff"; 
+                ctx.fillRect(0,0,targetWidth,targetHeight);
+            }
+
+            // 2. DRAW OVERLAY
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+            // 3. CAPTURE & SCALE CARD
+            const paperCard = document.querySelector('.paper-card');
+            
+            const cardCanvas = await html2canvas(paperCard, { 
+                backgroundColor: null, 
+                scale: 2, 
+                useCORS: true,
+                logging: false 
+            });
+
+            // ADAPTIVE SCALING
+            let widthPercentage = 0.55;
+            if (targetHeight > targetWidth) widthPercentage = 0.85;
+            if (targetHeight === targetWidth) widthPercentage = 0.75;
+
+            const maxWidth = targetWidth * widthPercentage;
+            const maxHeight = targetHeight * 0.90;
+            
+            let finalW = cardCanvas.width;
+            let finalH = cardCanvas.height;
+            const ratio = finalW / finalH;
+
+            finalW = maxWidth;
+            finalH = finalW / ratio;
+
+            if (finalH > maxHeight) {
+                finalH = maxHeight;
+                finalW = finalH * ratio;
+            }
+
+            const centerX = (targetWidth - finalW) / 2;
+            const centerY = (targetHeight - finalH) / 2;
+
+            ctx.drawImage(cardCanvas, centerX, centerY, finalW, finalH);
+
+            // 4. DOWNLOAD
+            const link = document.createElement('a');
+            link.download = `size-chart-${targetWidth}x${targetHeight}.jpg`;
+            link.href = canvas.toDataURL('image/jpeg', 0.92);
+            link.click();
+
+            // Success feedback
+            btn.innerHTML = "✓ Downloaded!";
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+
+        } catch (err) {
+            console.error(err);
+            alert("Error generating image: " + err.message);
+            btn.innerHTML = originalText;
+        } finally {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+        }
+    }
+
+    // --- RESPONSIVE HANDLING ---
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+            document.getElementById('controlsPanel').classList.add('open');
+        }
+    });
+
+    // Run init
+    init();
+    setFormat(1920, 1080, document.querySelector('.fmt-btn.active'));
+</script>
+
+</body>
+</html>
