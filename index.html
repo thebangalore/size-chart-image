@@ -3,443 +3,236 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bimba Studio — Growth Marketing Playbook</title>
+  <title>Bimba Studio — Growth Marketing System</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #FAF7F2; font-family: Georgia, serif; color: #1A1A1A; }
-    ::-webkit-scrollbar { display: none; }
     button { font-family: Georgia, serif; }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+<div id="root"></div>
 
-  <script type="text/babel">
-    const { useState } = React;
+<script type="text/babel">
+const { useState } = React;
 
-    const data = {
-      performance: {
-        icon: "📊",
-        title: "Performance Marketing",
-        color: "#C8452A",
-        sections: [
-          {
-            heading: "Campaign Structure",
-            items: [
-              { label: "Budget Recommendation", detail: "Start with ₹300/day (₹9,000/month). Split: 70% Instagram Reels ads, 30% retargeting." },
-              { label: "Campaign 1 — Awareness", detail: "Objective: Video Views / Reach. Use your best Reel. Target: Women 22–38, India, Interests: Ethnic wear, Indian fashion, Kurti, Myntra, Nykaa Fashion." },
-              { label: "Campaign 2 — Traffic", detail: "Objective: Link Clicks. Send to collection pages (not homepage). Target: Lookalike of website visitors (1%)." },
-              { label: "Campaign 3 — Retargeting", detail: "Objective: Conversions/Purchase. Audience: People who visited site but didn't buy. Show them a discount or 'Only 3 left' urgency ad." }
-            ]
-          },
-          {
-            heading: "Ad Creative Rules",
-            items: [
-              { label: "Hook (0–3 sec)", detail: "Start with movement or a bold statement: 'This kurti has pockets and I'm obsessed 🙌'" },
-              { label: "Format", detail: "Vertical Reels (9:16) perform 3x better than static images. Always use video." },
-              { label: "Caption", detail: "Keep it under 125 characters for feed. End with a CTA: 'Shop the link in bio 👆'" },
-              { label: "A/B Test", detail: "Always run 2–3 ad creatives simultaneously. Kill underperformers after 3 days." }
-            ]
-          },
-          {
-            heading: "Key Metrics to Track Weekly",
-            items: [
-              { label: "CPM (Cost per 1000 impressions)", detail: "Target: ₹80–150. If higher, your audience is too narrow or creative is weak." },
-              { label: "CTR (Click-through rate)", detail: "Target: 1.5%+. Below 1% = change the creative." },
-              { label: "ROAS (Return on Ad Spend)", detail: "Target: 2.5x minimum. ₹300/day spend = ₹750/day in sales to break even." },
-              { label: "Add to Cart Rate", detail: "If people click but don't add to cart, your product page needs work." }
-            ]
-          },
-          {
-            heading: "Monthly Ad Calendar",
-            items: [
-              { label: "Week 1", detail: "Launch awareness Reel campaign. Test 3 creatives." },
-              { label: "Week 2", detail: "Analyse CPM/CTR. Kill weakest. Launch retargeting for week 1 website visitors." },
-              { label: "Week 3", detail: "Scale winning creative by 20% budget. Launch influencer collab as whitelisted ad." },
-              { label: "Week 4", detail: "Run a 'End of Month Sale' campaign with urgency copy. Collect learnings for next month." }
-            ]
-          }
+const data = {
+  performance: {
+    icon: "📊",
+    title: "Performance Marketing (₹10K Optimized)",
+    color: "#C8452A",
+    sections: [
+      {
+        heading: "Budget & Structure",
+        items: [
+          { label: "Monthly Budget", detail: "₹10,000 total. ₹9,000 ads + ₹1,000 creative testing buffer." },
+          { label: "Campaign Type", detail: "Single Sales Campaign. Objective: Purchase. No awareness or traffic campaigns." },
+          { label: "Ad Set 1 — Broad", detail: "Women 20–38, India. No interests. Broad targeting works better at low data stage." },
+          { label: "Ad Set 2 — Retargeting", detail: "Website visitors + Instagram engagers (30 days). 30–40% daily spend." }
         ]
       },
-      influencer: {
-        icon: "🤝",
-        title: "Influencer Outreach",
-        color: "#8B5E3C",
-        sections: [
-          {
-            heading: "Who to Target",
-            items: [
-              { label: "Nano Influencers (2K–15K followers)", detail: "BEST ROI. They have tight, engaged communities. Their followers trust them like a friend. Target 8–10/month." },
-              { label: "Micro Influencers (15K–80K followers)", detail: "Do 1–2/month once you have a budget. Negotiate for a Reel + 2 Stories package." },
-              { label: "Profile Type", detail: "Look for: Indian women in fashion, lifestyle, mom bloggers, college/working women content. NOT fitness or travel." },
-              { label: "Engagement Check", detail: "Divide their avg. likes by followers. Anything above 3% is good. Below 1% = bought followers, skip." }
-            ]
-          },
-          {
-            heading: "How to Find Them",
-            items: [
-              { label: "Search Hashtags", detail: "Search #cottonkurti #ethnicwear #indianweardiaries #kurtistyle on Instagram. Look at who is posting organically." },
-              { label: "Check Your Followers", detail: "Someone with 3K–20K followers who already follows you is a warm lead. DM them first." },
-              { label: "Use a Free Tool", detail: "Modash.io or Heepsy have free trials. Search by niche + location + follower count." },
-              { label: "Competitor Research", detail: "Look at who tags similar kurti brands (like Libas, Jaipur Kurti) in their posts." }
-            ]
-          },
-          {
-            heading: "DM Script (Copy & Send)",
-            items: [
-              { label: "Message Template", detail: "Hi [Name]! 👋 We love your style and think you'd absolutely rock our kurtis. We're Bimba Studio — we make premium cotton kurtis with modern silhouettes, all under ₹1,600. Would love to send you a free kurti (your choice!) in exchange for 1 Reel + 2 Stories. No rigid script — just your honest style! Interested? 😊" },
-              { label: "Follow-up (Day 3)", detail: "Hey [Name], just following up on my message! We have limited pieces and would love to collaborate with you 🙏" },
-              { label: "Response Rate Expectation", detail: "Expect 20–30% response rate. Send 30 DMs to get 6–9 collaborations." }
-            ]
-          },
-          {
-            heading: "Collaboration Brief",
-            items: [
-              { label: "Deliverables", detail: "1 Reel (30–60 sec) showing styling + 2 Stories with swipe-up/link. Posted within 7 days of receiving product." },
-              { label: "Key Talking Points", detail: "Premium cotton fabric. Modern fits. Pockets (!). Under ₹1,600. Buy 2, save ₹480 offer." },
-              { label: "Hashtags to Use", detail: "#BimbaStudio #BimbaKurti #CottonKurti #EthnicWear — and their own style hashtags." },
-              { label: "Whitelisting Ask", detail: "Ask if they'll allow you to run their post as a paid ad (whitelist/partnership ad). This dramatically reduces ad costs." }
-            ]
-          }
+      {
+        heading: "Creative Testing Rules",
+        items: [
+          { label: "Test Volume", detail: "Minimum 4 new Reel creatives every month." },
+          { label: "Hook Formula", detail: "Start with outcome: 'Office ready kurti under ₹1500' or 'Finally a kurti with pockets'." },
+          { label: "Format", detail: "Vertical 9:16 Reels only. 7–15 seconds for cold traffic." },
+          { label: "Pause Rule", detail: "If CTR below 1% after 3 days, pause creative." }
         ]
       },
-      reels: {
-        icon: "🎬",
-        title: "3 Reels Per Week",
-        color: "#2D5F3F",
-        sections: [
-          {
-            heading: "Weekly Reel Calendar",
-            items: [
-              { label: "Monday — Styling Reel", detail: "'3 Ways to Style This Kurti' — show the same kurti styled casually, for office, and for an outing. This format gets HUGE saves." },
-              { label: "Wednesday — Product Spotlight", detail: "Close-up of fabric, details, pockets, print. Add satisfying transitions. End with the price. Use trending audio." },
-              { label: "Friday — Relatable/Hook Reel", detail: "'POV: You finally found a kurti that fits perfectly 😭' or 'Things our cotton kurtis do that fast fashion doesn't'. This format drives shares." }
-            ]
-          },
-          {
-            heading: "Reel Production Formula",
-            items: [
-              { label: "Duration", detail: "7–15 seconds performs best for reach. 30–60 seconds for depth (tutorials/styling). Never exceed 90 sec." },
-              { label: "Hook (First 1.5 sec)", detail: "Movement, bold text on screen, or surprising opener. No logos. No slow pans. Straight to the action." },
-              { label: "Audio", detail: "Go to Instagram > Trending Audios. Pick something with 🔺 (rising). Trending audio = free reach boost." },
-              { label: "Text Overlay", detail: "Add text for people watching on mute (60% of viewers). Keep it short: '3 ways to style' / 'under ₹1500' / 'has pockets!!'" },
-              { label: "Caption", detail: "Line 1: Hook ('This kurti just broke our website 😭'). Line 2–3: Details. Line 4: CTA. Add 5–8 relevant hashtags." }
-            ]
-          },
-          {
-            heading: "30 Reel Ideas for Bimba Studio",
-            items: [
-              { label: "Styling", detail: "3 ways to wear / office to dinner transition / how to style for a wedding / monsoon outfit ideas / summer work looks" },
-              { label: "Product", detail: "Fabric close-up ASMR / pocket reveal / colour range flat lay / try-on haul / before & after packaging unbox" },
-              { label: "Relatable", detail: "'When the kurti has pockets' reaction / 'Why I stopped buying from fast fashion' / 'My WFH outfit rotation' / 'Indian summer office outfits'" },
-              { label: "Educational", detail: "How to identify premium cotton / How to care for printed kurtis / How to pick a kurti for your body type" },
-              { label: "Behind the Scenes", detail: "Packaging orders / choosing prints for next collection / 'A day at Bimba Studio'" }
-            ]
-          },
-          {
-            heading: "Posting & Timing",
-            items: [
-              { label: "Best Days", detail: "Tuesday, Wednesday, Friday. Avoid Sunday." },
-              { label: "Best Time", detail: "7–9 AM or 7–9 PM IST. When your audience is commuting or winding down." },
-              { label: "Consistency Rule", detail: "Posting 3x/week consistently beats 7x one week and 0x the next. The algorithm rewards consistency over volume." },
-              { label: "After Posting", detail: "Spend 30 min engaging with comments + visit 10–15 similar accounts and genuinely comment. This signals the algorithm to push your post." }
-            ]
-          }
-        ]
-      },
-      pinterest: {
-        icon: "📌",
-        title: "Pinterest Strategy",
-        color: "#9B2335",
-        sections: [
-          {
-            heading: "Why Pinterest is Bimba's Secret Weapon",
-            items: [
-              { label: "Visual Search Engine, Not Social Media", detail: "Pinterest is NOT like Instagram. It's Google with pictures. Pins get discovered via search, not followers. A new account with 50 followers can get 50,000 monthly views if pins are SEO-optimised." },
-              { label: "Pins Live Forever", detail: "An Instagram post dies in 48 hours. A Pinterest pin can drive traffic for 3–5 years. Every pin you create is a long-term asset for Bimba." },
-              { label: "High Purchase Intent Audience", detail: "85% of weekly Pinners have made a purchase based on Pins. They are actively planning outfits and shopping — not just browsing." },
-              { label: "Indian Fashion is Massively Searched", detail: "Search volume for 'Indian kurti outfits', 'ethnic wear India', 'cotton kurti style' runs into millions on Pinterest globally. Indian diaspora in US, UK, Canada, Australia are huge spenders on Indian clothing." },
-              { label: "Google SEO Bonus", detail: "Pinterest boards and pins rank on Google image search. Search 'cotton kurti office wear' on Google — Pinterest images appear on page 1. This means free Google traffic without building backlinks." }
-            ]
-          },
-          {
-            heading: "One-Time Profile Setup (Do This First)",
-            items: [
-              { label: "Step 1: Convert to Business Account", detail: "Go to pinterest.com/business/convert. Free upgrade. Unlocks Pinterest Analytics, Rich Pins, and Ads. Essential." },
-              { label: "Step 2: Claim bimbastudio.in", detail: "Settings > Claimed Accounts > Website. Add the meta tag to your Shopify site head. Once claimed, every pin from your site shows your logo and gets boosted distribution." },
-              { label: "Step 3: Optimise Your Profile", detail: "Name: 'Bimba Studio | Cotton Kurtis India'. Bio: 'Handcrafted premium cotton kurtis for modern Indian women 🌿 Office to evening | Under ₹1,600 | Free shipping ₹1299+ | Shop 👇'. Add your website URL." },
-              { label: "Step 4: Enable Rich Pins", detail: "Rich Pins automatically pull product name, price, and availability from your Shopify site. When your kurti sells out, the pin updates automatically. Apply at developers.pinterest.com/tools/url-debugger." },
-              { label: "Step 5: Profile Photo", detail: "Use your Bimba Studio logo. Ensure it's clear on a white or light background at small (40px) sizes." }
-            ]
-          },
-          {
-            heading: "Board Architecture (Create All 8)",
-            items: [
-              { label: "Board 1: Bimba Studio — Cotton Kurtis", detail: "Your main shop board. Pin every single product here. Board description: 'Shop premium handcrafted cotton kurtis for women in India. Modern Indian prints, breathable fabric, pockets! Under ₹1,600 at bimbastudio.in'" },
-              { label: "Board 2: Office Kurti Outfits India", detail: "Professional styling content. Pin your kurtis styled for work + curate other office-appropriate Indian fashion. This is high-intent: women searching this are about to buy." },
-              { label: "Board 3: Cotton Kurti Styling Ideas", detail: "Seasonal and occasion styling. How to wear the same kurti multiple ways. Flat lays. Accessory pairings." },
-              { label: "Board 4: Indian Summer Fashion 2025", detail: "Seasonal board updated quarterly. 'Summer 2025' in the title captures date-specific searches. Swap to 'Festive Season 2025' in September." },
-              { label: "Board 5: Ethnic Wear Under ₹2000 India", detail: "Price-focused board. Massive search intent. Shoppers on a budget search this explicitly. Pin your products + complementary accessories." },
-              { label: "Board 6: Kurti with Palazzo / Kurti with Jeans", detail: "These combination searches are extremely popular. Create a board for each styling combo that fits your products." },
-              { label: "Board 7: Indian Wedding Guest Outfits", detail: "Wedding season is Oct–Feb. People search for outfit inspiration months in advance. Your long kurtis and printed pieces fit perfectly here." },
-              { label: "Board 8: Cotton Fabric Care & Fashion Tips", detail: "Educational board. 'How to wash block print cotton', 'How to style a straight kurti'. Positions Bimba as an authority, not just a shop." }
-            ]
-          },
-          {
-            heading: "Pin Types & Weekly Volume",
-            items: [
-              { label: "Product Pins (5/week)", detail: "Direct product shots linked to product page. Use 1000×1500px (2:3 ratio) images. Title: 'Bloom V-Neck Cotton Kurti with Pockets | Bimba Studio'. Description: keyword-rich 2–3 sentences + price + CTA." },
-              { label: "Styling / Outfit Pins (3/week)", detail: "Model photos or flat lays showing a complete outfit. Add text overlay: 'Monday Office Look 🌿' or '3 Ways to Style This Kurti'. Create on Canva — use 1080×1920px template." },
-              { label: "Infographic / Value Pins (2/week)", detail: "'5 Ways to Style a Short Kurti for Work', 'How to Pick Your Kurti Size', 'Best Cotton Fabrics for Indian Summer'. These get 5x more saves than product pins and build long-term reach." },
-              { label: "Idea Pins / Video Pins (1/week)", detail: "Repurpose your Instagram Reels here as video pins. Upload the same Reel directly to Pinterest. Pinterest heavily promotes video pins. Title it with keywords, not just your Reel caption." },
-              { label: "Curated Repins (5–10/week)", detail: "Repin related Indian fashion content from other creators. Keeps your profile active daily. Spend 10 mins browsing and repinning. The algorithm rewards daily activity." }
-            ]
-          },
-          {
-            heading: "The Perfect Pin Formula",
-            items: [
-              { label: "Image Size & Quality", detail: "Always 2:3 ratio (1000×1500 or 1080×1620px). Vertical pins get 60% more engagement than square or horizontal. Use bright, well-lit photos. Canva Pro has ready-made Pinterest templates." },
-              { label: "Pin Title (60 chars max)", detail: "Lead with the keyword: 'Cotton Short Kurti for Office Wear | Bimba Studio'. NOT 'Bloom Kurti – New Arrival'. Nobody searches 'Bloom Kurti'." },
-              { label: "Pin Description (100–500 chars)", detail: "Write 2–3 sentences naturally using keywords. Example: 'Discover our premium floral cotton kurti perfect for Indian office wear. Breathable fabric, hidden pockets, and modern silhouette — all under ₹1500. Shop the full collection at bimbastudio.in 🌸'" },
-              { label: "Alt Text", detail: "Pinterest uses alt text for search ranking. Write: 'Floral printed cotton short kurti for office wear India under 1500 — Bimba Studio'. Be descriptive and keyword-rich." },
-              { label: "Destination URL", detail: "Always link to the specific PRODUCT PAGE, not the homepage. Pinterest users who click are in buying mode — send them directly to what they're looking at." }
-            ]
-          },
-          {
-            heading: "Pinterest SEO — Keywords to Weave In",
-            items: [
-              { label: "Tier 1 — High Volume (Use as board titles)", detail: "cotton kurti, kurti for women, ethnic wear India, Indian fashion, kurti design 2025, Indian kurta women" },
-              { label: "Tier 2 — Medium Volume (Use in pin titles)", detail: "office kurti India, short kurti design, printed cotton kurti, summer kurti India, daily wear kurti, sleeveless kurti" },
-              { label: "Tier 3 — Long Tail (Use in descriptions — these CONVERT)", detail: "cotton kurti for office wear India under 1500, modern Indian kurti design, best cotton kurti brand India, kurti with pockets women India" },
-              { label: "Seasonal Keywords (Swap quarterly)", detail: "Q1 (Jan–Mar): 'summer kurti India 2025'. Q2 (Apr–Jun): 'monsoon ethnic wear'. Q3 (Jul–Sep): 'festive kurti 2025'. Q4 (Oct–Dec): 'wedding guest kurti', 'Diwali outfit Indian women'" },
-              { label: "Research Hack", detail: "Type any keyword into Pinterest search bar. Note the coloured suggestion bubbles that appear below — these are Pinterest's own data on what people search alongside that term. Use ALL of them in your descriptions." }
-            ]
-          },
-          {
-            heading: "Monthly Content Calendar",
-            items: [
-              { label: "January–March: Summer Prep", detail: "Content: Light cotton kurtis, office wear, travel outfits. Keywords: summer kurti India, breathable cotton kurti. Push: short kurtis, sleeveless styles." },
-              { label: "April–June: Summer Peak + Weddings", detail: "Content: Bright colours, printed kurtis, wedding guest looks. Keywords: summer ethnic wear, wedding kurti guest. Push: long kurtis, festive prints." },
-              { label: "July–September: Festive Season Build-up", detail: "Content: Festive styling, gifting, traditional prints. Keywords: festive kurti 2025, Navratri outfit. Start Diwali content in August — people plan early." },
-              { label: "October–December: Peak Season", detail: "Content: Diwali, weddings, New Year. This is your biggest traffic quarter. Double pin frequency. Keywords: Diwali kurti, Indian festive fashion. Run Pinterest ads in November." }
-            ]
-          },
-          {
-            heading: "Pinterest Ads (Month 2 onwards)",
-            items: [
-              { label: "When to Start", detail: "Start organic Pinterest for 30 days first. Once you see which pins get the most saves and clicks organically, promote THOSE pins. Never guess — let data decide." },
-              { label: "Campaign Type", detail: "Start with 'Traffic' campaign objective. Target: Women 22–45, India + diaspora (US, UK, CA, AU), interests: Indian fashion, ethnic wear, kurtis." },
-              { label: "Budget", detail: "₹200–400/day. Pinterest ads are cheaper than Meta in India's fashion category. Expect ₹5–15 cost per click vs ₹20–40 on Meta." },
-              { label: "Best Ad Format", detail: "Promoted Pins look exactly like organic pins — no 'ad feel'. Use your best-performing product pin or a styling infographic. Add a price in the image (increases CTR by 28%)." }
-            ]
-          },
-          {
-            heading: "Analytics — What to Track Weekly",
-            items: [
-              { label: "Monthly Views", detail: "Vanity metric but useful for momentum. New accounts: target 10K views by Month 1, 50K by Month 3." },
-              { label: "Outbound Clicks (Most Important)", detail: "How many people clicked through to bimbastudio.in. This is your real metric. Check which pins drive the most clicks and make more of those." },
-              { label: "Saves", detail: "High saves = people love the content and want to come back. Great for product discovery. Target 10+ saves per product pin." },
-              { label: "Top Performing Pins", detail: "Sort by 'Link Clicks' every Friday. Your top 3 click-driving pins reveal what your audience wants. Immediately create 3 more pins with the same style/theme." },
-              { label: "Google Analytics Cross-check", detail: "In GA4, go to Acquisition > Traffic Source. You should see 'pinterest.com' growing as a source month over month. This validates your effort." }
-            ]
-          }
+      {
+        heading: "Realistic KPIs",
+        items: [
+          { label: "CTR Target", detail: "1%–2%." },
+          { label: "Cost Per Click", detail: "₹8–20 range." },
+          { label: "Month 1 ROAS", detail: "1.5x–2x while testing." },
+          { label: "Month 2+ ROAS", detail: "Scale only if consistently above 2x." },
+          { label: "Primary Metric", detail: "Cost Per Purchase. Ignore vanity views." }
         ]
       }
-    };
+    ]
+  },
 
-    const weeklyPlan = [
-      { day: "Mon", tasks: ["Film styling Reel", "Pin 3 products on Pinterest", "DM 5 influencers"] },
-      { day: "Tue", tasks: ["Edit + post Reel", "Engage 30 mins on Instagram", "Check ad metrics"] },
-      { day: "Wed", tasks: ["Film product spotlight Reel", "Post 2 Pinterest infographics", "Reply to all comments/DMs"] },
-      { day: "Thu", tasks: ["Edit + post Reel", "Repin 5 posts on Pinterest", "Influencer follow-ups"] },
-      { day: "Fri", tasks: ["Film relatable/hook Reel", "Pin 2 more products", "Review weekly ad spend"] },
-      { day: "Sat", tasks: ["Post Friday Reel", "Post 3 Stories (polls/BTS)", "Plan next week's content"] },
-      { day: "Sun", tasks: ["Rest 😊", "Light: save trending audios", "Batch-plan Reel scripts"] }
-    ];
+  influencer: {
+    icon: "🤝",
+    title: "Influencer System",
+    color: "#8B5E3C",
+    sections: [
+      {
+        heading: "Target Profile",
+        items: [
+          { label: "Follower Range", detail: "2K–15K nano influencers for best ROI." },
+          { label: "Engagement Rule", detail: "Minimum 3% engagement rate." },
+          { label: "Niche", detail: "Indian fashion, office wear, college styling. Avoid fitness/travel creators." }
+        ]
+      },
+      {
+        heading: "Execution Plan",
+        items: [
+          { label: "Outreach Volume", detail: "Send 20–30 DMs weekly." },
+          { label: "Deliverables", detail: "1 Reel + 2 Stories. Posted within 7 days of receiving product." },
+          { label: "Whitelisting", detail: "Always request ad usage rights for paid amplification." },
+          { label: "Monthly Goal", detail: "6–8 influencer collaborations." }
+        ]
+      }
+    ]
+  },
 
-    function App() {
-      const [activeTab, setActiveTab] = useState("performance");
-      const [openItems, setOpenItems] = useState({});
+  reels: {
+    icon: "🎬",
+    title: "3 Reels Per Week System",
+    color: "#2D5F3F",
+    sections: [
+      {
+        heading: "Weekly Structure",
+        items: [
+          { label: "Monday — Styling", detail: "3 ways to style one kurti." },
+          { label: "Wednesday — Product Focus", detail: "Fabric close-up, fit, pocket reveal." },
+          { label: "Friday — Relatable Hook", detail: "POV or problem solving angle." }
+        ]
+      },
+      {
+        heading: "Reel Formula",
+        items: [
+          { label: "Hook (First 2 sec)", detail: "Bold text outcome. No logo intro." },
+          { label: "Duration", detail: "7–15 sec for ads. 20–30 sec for organic depth." },
+          { label: "Text Overlay", detail: "Assume 60% watch on mute." },
+          { label: "CTA", detail: "Always end with 'Shop link in bio' or 'Tap to shop'." }
+        ]
+      },
+      {
+        heading: "Volume Rule",
+        items: [
+          { label: "30 Day Target", detail: "Minimum 12 reels per month." },
+          { label: "Creative Bank", detail: "Film 4–5 reels in one batch day." }
+        ]
+      }
+    ]
+  },
 
-      const toggle = (key) => setOpenItems(prev => ({ ...prev, [key]: !prev[key] }));
-      const tab = data[activeTab];
+  pinterest: {
+    icon: "📌",
+    title: "Pinterest Organic Engine",
+    color: "#9B2335",
+    sections: [
+      {
+        heading: "First 60 Days",
+        items: [
+          { label: "No Ads", detail: "Do not run Pinterest ads until Meta is profitable." },
+          { label: "Daily Pins", detail: "2 pins per day minimum." },
+          { label: "Pin Types", detail: "Product pins + styling pins + 1 infographic weekly." }
+        ]
+      },
+      {
+        heading: "SEO Focus",
+        items: [
+          { label: "Board Titles", detail: "Use keywords like 'Office Kurtis India', 'Cotton Kurti Under 1500'." },
+          { label: "Pin Titles", detail: "Lead with searchable phrase. Not product name first." },
+          { label: "Destination URL", detail: "Always link to product page, not homepage." },
+          { label: "Primary Metric", detail: "Outbound clicks to website." }
+        ]
+      }
+    ]
+  }
+};
 
-      const tabs = [
-        { id: "performance", ...data.performance },
-        { id: "influencer", ...data.influencer },
-        { id: "reels", ...data.reels },
-        { id: "pinterest", ...data.pinterest },
-        { id: "weekly", icon: "📅", title: "Weekly Plan", color: "#444" }
-      ];
+const weeklyPlan = [
+  { day: "Mon", tasks: ["Film styling Reel", "Pin 2 products", "DM 5 influencers"] },
+  { day: "Tue", tasks: ["Edit + post Reel", "Engage 30 mins", "Check ad metrics"] },
+  { day: "Wed", tasks: ["Film product Reel", "Create 1 infographic pin"] },
+  { day: "Thu", tasks: ["Edit + post Reel", "Influencer follow-ups"] },
+  { day: "Fri", tasks: ["Film relatable Reel", "Pin 2 products", "Review ad performance"] },
+  { day: "Sat", tasks: ["Post Reel", "Post Stories", "Plan next week"] },
+  { day: "Sun", tasks: ["Light planning", "Save trending audios"] }
+];
 
-      return (
-        <div style={{ fontFamily: "Georgia, serif", background: "#FAF7F2", minHeight: "100vh", color: "#1A1A1A" }}>
-          {/* Header */}
-          <div style={{
-            background: "linear-gradient(135deg, #1A1A1A 0%, #3D2B1F 100%)",
-            padding: "40px 24px 32px", textAlign: "center", position: "relative", overflow: "hidden"
+function App() {
+  const [activeTab, setActiveTab] = useState("performance");
+  const [openItems, setOpenItems] = useState({});
+  const tab = data[activeTab];
+
+  const toggle = (key) => setOpenItems(prev => ({ ...prev, [key]: !prev[key] }));
+
+  const tabs = [
+    { id: "performance", ...data.performance },
+    { id: "influencer", ...data.influencer },
+    { id: "reels", ...data.reels },
+    { id: "pinterest", ...data.pinterest },
+    { id: "weekly", icon: "📅", title: "Weekly Plan", color: "#444" }
+  ];
+
+  return (
+    <div style={{ minHeight: "100vh" }}>
+      <div style={{ background: "#1A1A1A", padding: "40px 20px", textAlign: "center", color: "#FAF7F2" }}>
+        <h1 style={{ fontWeight: 400 }}>Bimba Studio Growth System</h1>
+        <p style={{ opacity: 0.7, fontSize: 14 }}>Conversion First. Creative Driven. ₹10K Focused.</p>
+      </div>
+
+      <div style={{ display: "flex", overflowX: "auto", background: "#fff", borderBottom: "1px solid #eee" }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
+            padding: "14px 18px",
+            border: "none",
+            background: "none",
+            cursor: "pointer",
+            color: activeTab === t.id ? t.color : "#888",
+            borderBottom: activeTab === t.id ? `2px solid ${t.color}` : "2px solid transparent"
           }}>
-            <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
-              backgroundImage: "radial-gradient(circle at 20% 50%, rgba(200,69,42,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(139,94,60,0.15) 0%, transparent 50%)"
-            }} />
-            <p style={{ color: "#C8452A", fontSize: 13, letterSpacing: 4, textTransform: "uppercase", margin: "0 0 12px" }}>✦ Bimba Studio ✦</p>
-            <h1 style={{ color: "#FAF7F2", fontSize: "clamp(22px, 5vw, 38px)", fontWeight: 400, margin: "0 0 12px", lineHeight: 1.2 }}>
-              Growth Marketing Playbook
-            </h1>
-            <p style={{ color: "rgba(250,247,242,0.6)", fontSize: 14, margin: 0, letterSpacing: 1 }}>
-              Performance Ads · Influencers · Reels · Pinterest
-            </p>
-          </div>
+            {t.icon} {t.title}
+          </button>
+        ))}
+      </div>
 
-          {/* Tabs */}
-          <div style={{
-            display: "flex", overflowX: "auto", background: "#fff",
-            borderBottom: "1px solid #E8E0D5", padding: "0 16px", scrollbarWidth: "none"
-          }}>
-            {tabs.map(t => (
-              <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
-                background: "none", border: "none", cursor: "pointer",
-                padding: "16px 20px", whiteSpace: "nowrap", fontSize: 13,
-                color: activeTab === t.id ? (t.color || "#C8452A") : "#888",
-                borderBottom: activeTab === t.id ? `2px solid ${t.color || "#C8452A"}` : "2px solid transparent",
-                fontWeight: activeTab === t.id ? 600 : 400, transition: "all 0.2s", fontFamily: "Georgia, serif"
-              }}>
-                {t.icon} {t.title}
-              </button>
-            ))}
-          </div>
-
-          {/* Content */}
-          <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 16px 60px" }}>
-            {activeTab !== "weekly" ? (
-              <>
-                <div style={{ marginBottom: 28 }}>
-                  <h2 style={{ fontSize: 26, fontWeight: 400, margin: "0 0 6px", color: tab.color }}>
-                    {tab.icon} {tab.title}
-                  </h2>
-                  <div style={{ height: 2, width: 48, background: tab.color, borderRadius: 2 }} />
-                </div>
-
-                {tab.sections.map((section, si) => (
-                  <div key={si} style={{ marginBottom: 32 }}>
-                    <h3 style={{
-                      fontSize: 11, letterSpacing: 3, textTransform: "uppercase",
-                      color: "#888", margin: "0 0 16px", fontWeight: 400
-                    }}>{section.heading}</h3>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                      {section.items.map((item, ii) => {
-                        const key = `${si}-${ii}`;
-                        const isOpen = openItems[key];
-                        return (
-                          <div key={ii} style={{
-                            background: "#fff",
-                            border: `1px solid ${isOpen ? tab.color + "40" : "#E8E0D5"}`,
-                            borderRadius: 10, overflow: "hidden",
-                            transition: "border-color 0.2s",
-                            boxShadow: isOpen ? `0 2px 16px ${tab.color}15` : "none"
-                          }}>
-                            <button onClick={() => toggle(key)} style={{
-                              width: "100%", background: "none", border: "none", cursor: "pointer",
-                              padding: "14px 18px", display: "flex", justifyContent: "space-between",
-                              alignItems: "center", textAlign: "left"
-                            }}>
-                              <span style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A" }}>{item.label}</span>
-                              <span style={{
-                                fontSize: 18, color: tab.color, lineHeight: 1,
-                                transform: isOpen ? "rotate(45deg)" : "rotate(0)",
-                                transition: "transform 0.2s", flexShrink: 0, marginLeft: 12,
-                                display: "inline-block"
-                              }}>+</span>
-                            </button>
-                            {isOpen && (
-                              <div style={{
-                                padding: "0 18px 16px", fontSize: 13.5, lineHeight: 1.7, color: "#444",
-                                borderTop: `1px solid ${tab.color}20`, background: `${tab.color}05`
-                              }}>
-                                <p style={{ margin: "14px 0 0" }}>{item.detail}</p>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>
-                <div style={{ marginBottom: 28 }}>
-                  <h2 style={{ fontSize: 26, fontWeight: 400, margin: "0 0 6px", color: "#444" }}>📅 Weekly Action Plan</h2>
-                  <p style={{ color: "#888", fontSize: 13, margin: "6px 0 0" }}>Your exact to-do list every week to run all 4 channels</p>
-                  <div style={{ height: 2, width: 48, background: "#444", borderRadius: 2, marginTop: 10 }} />
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  {weeklyPlan.map((day, i) => (
-                    <div key={i} style={{
-                      background: "#fff", border: "1px solid #E8E0D5",
-                      borderRadius: 12, padding: "16px 20px",
-                      display: "flex", gap: 20, alignItems: "flex-start"
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "30px 16px 60px" }}>
+        {activeTab !== "weekly" ? (
+          tab.sections.map((section, si) => (
+            <div key={si} style={{ marginBottom: 30 }}>
+              <h3 style={{ marginBottom: 12, color: tab.color }}>{section.heading}</h3>
+              {section.items.map((item, ii) => {
+                const key = `${si}-${ii}`;
+                const isOpen = openItems[key];
+                return (
+                  <div key={ii} style={{ marginBottom: 8, border: "1px solid #eee", borderRadius: 8 }}>
+                    <button onClick={() => toggle(key)} style={{
+                      width: "100%",
+                      padding: "12px 14px",
+                      background: "none",
+                      border: "none",
+                      textAlign: "left",
+                      cursor: "pointer",
+                      fontWeight: 600
                     }}>
-                      <div style={{
-                        flexShrink: 0, width: 44, height: 44, borderRadius: 10,
-                        background: i === 6 ? "#F0EDE8" : "linear-gradient(135deg, #C8452A, #8B5E3C)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        color: i === 6 ? "#888" : "#fff", fontWeight: 700, fontSize: 13
-                      }}>{day.day}</div>
-                      <div style={{ flex: 1 }}>
-                        {day.tasks.map((task, ti) => (
-                          <div key={ti} style={{
-                            fontSize: 13.5, color: "#333", padding: "3px 0",
-                            display: "flex", alignItems: "flex-start", gap: 8
-                          }}>
-                            <span style={{ color: "#C8452A", flexShrink: 0, marginTop: 2 }}>→</span>
-                            {task}
-                          </div>
-                        ))}
+                      {item.label}
+                    </button>
+                    {isOpen && (
+                      <div style={{ padding: "0 14px 12px", fontSize: 14, color: "#444" }}>
+                        {item.detail}
                       </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ marginTop: 36 }}>
-                  <h3 style={{ fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#888", margin: "0 0 16px", fontWeight: 400 }}>
-                    Monthly Targets
-                  </h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                    {[
-                      { metric: "Instagram Followers", target: "+300–500/month", icon: "📸" },
-                      { metric: "Reel Views", target: "10K+ per Reel avg", icon: "▶️" },
-                      { metric: "Pinterest Monthly Views", target: "5K → 25K in 60 days", icon: "📌" },
-                      { metric: "Website Traffic", target: "500+ sessions/week", icon: "🌐" },
-                      { metric: "Influencer Collabs", target: "6–10 per month", icon: "🤝" },
-                      { metric: "Ad ROAS", target: "2.5x minimum", icon: "💰" }
-                    ].map((m, i) => (
-                      <div key={i} style={{
-                        background: "#fff", border: "1px solid #E8E0D5",
-                        borderRadius: 12, padding: "16px",
-                        display: "flex", flexDirection: "column", gap: 6
-                      }}>
-                        <span style={{ fontSize: 22 }}>{m.icon}</span>
-                        <div style={{ fontSize: 12, color: "#888" }}>{m.metric}</div>
-                        <div style={{ fontSize: 14, fontWeight: 700, color: "#C8452A" }}>{m.target}</div>
-                      </div>
-                    ))}
+                    )}
                   </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      );
-    }
+                );
+              })}
+            </div>
+          ))
+        ) : (
+          weeklyPlan.map((day, i) => (
+            <div key={i} style={{ marginBottom: 14, padding: 14, background: "#fff", borderRadius: 8, border: "1px solid #eee" }}>
+              <strong>{day.day}</strong>
+              {day.tasks.map((task, ti) => (
+                <div key={ti} style={{ fontSize: 14, marginTop: 4 }}>• {task}</div>
+              ))}
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
-  </script>
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
 </body>
 </html>
